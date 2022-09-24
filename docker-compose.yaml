@@ -14,8 +14,6 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=0987654321
       - POSTGRES_DB=devcamp
-      - APP_DB_USER=docker
-      - APP_DB_PASS=1234567890
     ports:
       - 9001:5432
     volumes:
