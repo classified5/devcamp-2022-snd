@@ -2,19 +2,23 @@ FROM --platform=linux/arm64 golang:1.17 AS build
 
 ENV GO111MODULE=on
 
-WORKDIR /go/src/devcamp-2022-snd/
+RUN apt-get update && \
+    apt-get upgrade -y && \
+    apt-get install -y git
 
-COPY go.mod ./
+WORKDIR /go/src/github.com/devcamp-2022-snd/
+
+COPY go.mod go.sum ./
 RUN go mod download
 
 COPY . .
 
-RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags="-w -s" -o service .
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags="-w -s" -o main .
 
 FROM alpine
-COPY --from=build /go/src/devcamp-2022-snd/ go/bin/devcamp-2022-snd/
+COPY --from=build /go/src/github.com/devcamp-2022-snd/main go/bin/devcamp-2022-snd/
 
 EXPOSE 9000
 WORKDIR go/bin/devcamp-2022-snd/
 
-CMD ["./service"]
+CMD ["./main"]

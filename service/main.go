@@ -4,6 +4,14 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"time"
+
+	"github.com/gorilla/mux"
+
+	"github.com/classified5/devcamp-2022-snd/service/database"
+	"github.com/classified5/devcamp-2022-snd/service/server"
+	shipperHandler "github.com/classified5/devcamp-2022-snd/service/server/handlers/shipper"
+	"github.com/classified5/devcamp-2022-snd/service/shippermodule"
 )
 
 func rootHandler(w http.ResponseWriter, req *http.Request) {
@@ -11,9 +19,34 @@ func rootHandler(w http.ResponseWriter, req *http.Request) {
 }
 
 func main() {
-	log.Println("Devcamp-2022-snd backend service is starting...")
+	dbConfig := database.Config{
+		User:     "postgres",
+		Password: "admin",
+		DBName:   "devcamp",
+		Port:     5432,
+		Host:     "db",
+		SSLMode:  "disable",
+	}
+	db := database.GetDatabaseConnection(dbConfig)
 
-	http.HandleFunc("/", rootHandler)
+	sm := shippermodule.NewShipperModule(db)
+	sh := shipperHandler.NewShipperHandler(sm)
 
-	http.ListenAndServe(":9090", nil)
+	router := mux.NewRouter()
+
+	// REST Handlers
+	router.HandleFunc("/shipper", sh.AddShipper).Methods(http.MethodPost)
+	router.HandleFunc("/shipper/{id:[0-9]+}", sh.UpdateShipper).Methods(http.MethodPut)
+	router.HandleFunc("/shipper/{id:[0-9]+}", sh.GetShipper).Methods(http.MethodGet)
+	router.HandleFunc("/shippers", sh.GetShipperAll).Methods(http.MethodGet)
+	router.HandleFunc("/", rootHandler)
+
+	serverConfig := server.Config{
+		WriteTimeout: 5 * time.Second,
+		ReadTimeout:  5 * time.Second,
+		Port:         9090,
+	}
+	log.Println("Devcamp-2022-snd service service is running...")
+
+	server.Serve(serverConfig, router)
 }

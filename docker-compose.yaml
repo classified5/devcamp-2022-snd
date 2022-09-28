@@ -12,7 +12,7 @@ services:
     restart: always
     environment:
       - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=0987654321
+      - POSTGRES_PASSWORD=admin
       - POSTGRES_DB=devcamp
     ports:
       - 9001:5432
