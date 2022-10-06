@@ -29,10 +29,10 @@ func Serve(cfg Config, router *mux.Router) {
 
 	go func() {
 		if err := srv.ListenAndServe(); err != nil {
-			log.Fatal("[Server] unable to listen and serve, err: " + err.Error())
+			log.Fatal("[Server] unable to listen and serve, err:" + err.Error())
 		}
 	}()
-	log.Println("[Server] HTTP server is running at port ", cfg.Port)
+	log.Println("[Server] HTTP server is running at port", cfg.Port)
 
 	s := make(chan os.Signal, 1)
 
@@ -40,6 +40,6 @@ func Serve(cfg Config, router *mux.Router) {
 	<-s
 
 	if err := srv.Shutdown(context.Background()); err != nil {
-		log.Println("[Server] error on shutting down HTTP Server, err: ", err.Error())
+		log.Println("[Server] error on shutting down HTTP Server, err:", err.Error())
 	}
 }

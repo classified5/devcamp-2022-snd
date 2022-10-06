@@ -12,8 +12,11 @@ func SanitizeInsert(param m.ShipperRequest) (m.ShipperRequest, error) {
 	if param.Name == "" {
 		return param, errors.New("name cannot be empty")
 	}
-	if param.MaxWeight == 0 {
-		return param, errors.New("price cannot be empty")
+	if param.ImageURL == "" {
+		return param, errors.New("image url cannot be empty")
+	}
+	if param.Description == "" {
+		return param, errors.New("description cannot be empty")
 	}
 	if param.MaxWeight < 0 {
 		return param, errors.New("invalid rating range")
@@ -45,9 +48,6 @@ func BuildQuery(id int64, param m.ShipperRequest) (finalQuery string, fieldValue
 		i++
 	}
 
-	if param.UpdatedAt.IsZero() {
-		param.UpdatedAt = time.Now()
-	} 
 	fieldQuery += fmt.Sprintf("updated_by=$%d,", i)
 	fieldValues = append(fieldValues, param.UpdatedAt)
 	i++

@@ -49,8 +49,16 @@ const (
 	UPDATE
 		shipper
 	SET
-		%s
+		name=$1,
+		image_url=$2,
+		description=$3,
+		max_weight=$4,
+		created_at=$5,
+		created_by=$6,
+		updated_at=$7,
+		updated_by=$8
 	WHERE
-		id=%d
+		id=$9
+	returning id	
 `
 )

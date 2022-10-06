@@ -3,6 +3,7 @@ package shipper
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -11,11 +12,17 @@ import (
 
 	"github.com/gorilla/mux"
 
-	"github.com/classified5/devcamp-2022-snd/service/server"
 	"github.com/classified5/devcamp-2022-snd/service/model"
+	"github.com/classified5/devcamp-2022-snd/service/server"
 )
 
-func (p *Handler) AddShipper(w http.ResponseWriter, r *http.Request) {
+func (p *Handler) RootHandler(w http.ResponseWriter, req *http.Request) {
+	log.Println("Entering RootHandler")
+	fmt.Fprintf(w, "Hello Devcamp-2022-snd!")
+}
+
+func (p *Handler) AddShipperHandler(w http.ResponseWriter, r *http.Request) {
+	log.Println("Entering AddShipperHandler")
 	timeStart := time.Now()
 
 	body, err := ioutil.ReadAll(r.Body)
@@ -38,7 +45,7 @@ func (p *Handler) AddShipper(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	resp := cuShipperResponse{
+	resp := InsertShipperResponse{
 		ID: res.ID,
 	}
 
@@ -46,7 +53,8 @@ func (p *Handler) AddShipper(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (p *Handler) GetShipper(w http.ResponseWriter, r *http.Request) {
+func (p *Handler) GetShipperHandler(w http.ResponseWriter, r *http.Request) {
+	log.Println("Entering GetShipper Handler")
 	timeStart := time.Now()
 
 	vars := mux.Vars(r)
@@ -67,7 +75,8 @@ func (p *Handler) GetShipper(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (p *Handler) GetShipperAll(w http.ResponseWriter, r *http.Request) {
+func (p *Handler) GetShipperAllHandler(w http.ResponseWriter, r *http.Request) {
+	log.Println("Entering GetShipperAll Handler")
 	timeStart := time.Now()
 	var err error
 
@@ -81,7 +90,8 @@ func (p *Handler) GetShipperAll(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (p *Handler) UpdateShipper(w http.ResponseWriter, r *http.Request) {
+func (p *Handler) UpdateShipperHandler(w http.ResponseWriter, r *http.Request) {
+	log.Println("Entering UpdateShipper Handler")
 	timeStart := time.Now()
 	vars := mux.Vars(r)
 	queryID, err := strconv.ParseInt(vars["id"], 10, 64)
