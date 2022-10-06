@@ -3,7 +3,6 @@ package shippermodule
 import (
 	"context"
 	"database/sql"
-	"errors"
 	"log"
 
 	m "github.com/classified5/devcamp-2022-snd/service/model"
@@ -92,22 +91,21 @@ func (s *storage) GetShipperAll(ctx context.Context) (result []m.ShipperResponse
 }
 
 func (s *storage) UpdateShipper(ctx context.Context, id int64, param m.ShipperRequest) (result m.ShipperResponse, err error) {
-	query, values := BuildQuery(id, param)
-	res, err := s.ShipperDB.ExecContext(ctx, query, values...)
-	if err != nil {
-		log.Println("[ShipperModule][UpdateShipper] problem querying to db, err: ", err.Error())
-		return
+	if err := s.ShipperDB.QueryRowContext(ctx, updateShipperQuery,
+		param.Name,
+		param.ImageURL,
+		param.Description,
+		param.MaxWeight,
+		param.CreatedAt,
+		param.CreatedBy,
+		param.UpdatedAt,
+		param.UpdatedBy,
+		id,
+	).Scan(&id); err != nil {
+		log.Println("[ShipperModule][UpdateShipper][Storage] problem querying to db, err: ", err.Error())
+		return result, err
 	}
-	rowsAffected, err := res.RowsAffected()
-	if err != nil {
-		log.Println("[ShipperModule][UpdateShipper] problem querying to db, err: ", err.Error())
-		return
-	}
-	if rowsAffected == 0 {
-		log.Println("[ShipperModule][UpdateShipper] no rows affected in db")
-		err = errors.New("no rows affected in db")
-		return
-	}
+
 	result.ID = id
 
 	return

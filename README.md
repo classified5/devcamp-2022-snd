@@ -1,16 +1,20 @@
 # Tokopedia Devcamp 2022 Server and Database
 
-## How to Start the Service?
+## How to Start the whole project?
 
-You can run the service using docker detached option
+You can run the whole project using docker detached option
 
 ```shell
 docker-compose up -d
 ```
 
-If you want to rebuild the service, run this command
+## Code Structure
 
-```shell
-docker-compose up --force-recreate
+Please refer to each folder for a more detailed code structure.
+
 ```
-
+devcamp-2022-snd
+ ├── db                     # Database Configuration
+ ├── service                # Backend HTTP Service Code        
+ └── docker-compose.yml
+```

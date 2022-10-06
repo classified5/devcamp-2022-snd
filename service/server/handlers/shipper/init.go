@@ -2,7 +2,7 @@ package shipper
 
 import "github.com/classified5/devcamp-2022-snd/service/shippermodule"
 
-type cuShipperResponse struct {
+type InsertShipperResponse struct {
 	ID int64 `json:"id"`
 }
 

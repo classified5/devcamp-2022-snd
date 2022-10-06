@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"net/http"
 	"time"
@@ -14,39 +13,43 @@ import (
 	"github.com/classified5/devcamp-2022-snd/service/shippermodule"
 )
 
-func rootHandler(w http.ResponseWriter, req *http.Request) {
-	fmt.Fprintf(w, "Hello Devcamp-2022-snd!")
-}
-
 func main() {
 	dbConfig := database.Config{
 		User:     "postgres",
-		Password: "admin",
+		Password: "12345",
 		DBName:   "devcamp",
 		Port:     5432,
 		Host:     "db",
 		SSLMode:  "disable",
 	}
+
+	// Init DB connection
+	log.Println("Initializing DB Connection")
 	db := database.GetDatabaseConnection(dbConfig)
 
+	// Init shipper usecase
+	log.Println("Initializing Usecase")
 	sm := shippermodule.NewShipperModule(db)
+
+	// Init shipper handler
+	log.Println("Initializing Handler")
 	sh := shipperHandler.NewShipperHandler(sm)
 
 	router := mux.NewRouter()
 
 	// REST Handlers
-	router.HandleFunc("/shipper", sh.AddShipper).Methods(http.MethodPost)
-	router.HandleFunc("/shipper/{id:[0-9]+}", sh.UpdateShipper).Methods(http.MethodPut)
-	router.HandleFunc("/shipper/{id:[0-9]+}", sh.GetShipper).Methods(http.MethodGet)
-	router.HandleFunc("/shippers", sh.GetShipperAll).Methods(http.MethodGet)
-	router.HandleFunc("/", rootHandler)
+	router.HandleFunc("/shipper", sh.AddShipperHandler).Methods(http.MethodPost)
+	router.HandleFunc("/shipper/{id}", sh.UpdateShipperHandler).Methods(http.MethodPut)
+	router.HandleFunc("/shipper/{id}", sh.GetShipperHandler).Methods(http.MethodGet)
+	router.HandleFunc("/shippers", sh.GetShipperAllHandler).Methods(http.MethodGet)
+	router.HandleFunc("/", sh.RootHandler).Methods(http.MethodGet)
 
 	serverConfig := server.Config{
 		WriteTimeout: 5 * time.Second,
 		ReadTimeout:  5 * time.Second,
 		Port:         9090,
 	}
-	log.Println("Devcamp-2022-snd service service is running...")
+	log.Println("Devcamp-2022-snd shipper service service is starting...")
 
 	server.Serve(serverConfig, router)
 }
