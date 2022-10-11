@@ -46,6 +46,12 @@ curl --request PUT \
 }'
 ```
 
+Delete Shipper By ID
+```shell
+curl --request DELETE \
+  --url http://localhost:9000/shipper/1
+```
+
 Get Shipper By ID
 ```shell
 curl --request GET \
