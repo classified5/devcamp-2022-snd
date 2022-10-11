@@ -45,6 +45,13 @@ const (
 		shipper
 `
 
+	deleteShipperQuery = `
+	DELETE FROM
+		shipper
+	WHERE
+		id=$1
+`
+
 	updateShipperQuery = `
 	UPDATE
 		shipper
