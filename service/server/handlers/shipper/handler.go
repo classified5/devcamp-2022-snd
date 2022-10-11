@@ -87,7 +87,7 @@ func (p *Handler) DeleteShipperHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	resp, err := p.shipper.GetShipper(context.Background(), queryID)
+	resp, err := p.shipper.DeleteShipper(context.Background(), queryID)
 	if err != nil {
 		server.RenderError(w, http.StatusBadRequest, err, timeStart)
 		return
