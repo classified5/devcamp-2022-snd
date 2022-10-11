@@ -58,6 +58,11 @@ curl --request GET \
   --url http://localhost:9000/shippers
 ```
 
+Delete Shipper By ID
+```shell
+curl -X "DELETE" http://localhost:9000/shippers/1
+```
+
 ## Code Structure
 
 Code structure for shipper service.
