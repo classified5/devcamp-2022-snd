@@ -42,6 +42,7 @@ func main() {
 	router.HandleFunc("/shipper/{id}", sh.UpdateShipperHandler).Methods(http.MethodPut)
 	router.HandleFunc("/shipper/{id}", sh.GetShipperHandler).Methods(http.MethodGet)
 	router.HandleFunc("/shippers", sh.GetShipperAllHandler).Methods(http.MethodGet)
+	router.HandleFunc("/shipper/{id}", sh.DeleteShipperHandler).Methods(http.MethodDelete)
 	router.HandleFunc("/", sh.RootHandler).Methods(http.MethodGet)
 
 	serverConfig := server.Config{
