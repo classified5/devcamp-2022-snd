@@ -33,6 +33,16 @@ func (p *Module) GetShipper(ctx context.Context, id int64) (result m.ShipperResp
 	return
 }
 
+func (p *Module) DeleteShipper(ctx context.Context, id int64) (result m.ShipperResponse, err error) {
+	result, err = p.Storage.DeleteShipper(ctx, id)
+	if err != nil {
+		log.Println("[ShipperModule][DeleteShipper] problem getting storage data, err: ", err.Error())
+		return
+	}
+
+	return
+}
+
 func (p *Module) GetShipperAll(ctx context.Context) (result []m.ShipperResponse, err error) {
 	result, err = p.Storage.GetShipperAll(ctx)
 	if err != nil {
