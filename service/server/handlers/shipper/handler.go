@@ -18,7 +18,7 @@ import (
 
 func (p *Handler) RootHandler(w http.ResponseWriter, req *http.Request) {
 	log.Println("Entering RootHandler")
-	fmt.Fprintf(w, "Hello Devcamp-2022-snd!")
+	fmt.Fprintf(w, "Hello Devcamp-2022-snd! updated")
 }
 
 func (p *Handler) AddShipperHandler(w http.ResponseWriter, r *http.Request) {
@@ -123,4 +123,27 @@ func (p *Handler) UpdateShipperHandler(w http.ResponseWriter, r *http.Request) {
 
 	server.RenderResponse(w, http.StatusCreated, resp, timeStart)
 	return
+}
+
+func (p *Handler) DeleteShipperHandler(w http.ResponseWriter, r *http.Request) {
+	log.Println("Entering DeleteShipper Handler")
+	timeStart := time.Now()
+	vars := mux.Vars(r)
+	queryID, err := strconv.ParseInt(vars["id"], 10, 64)
+	if err != nil {
+		log.Println("[ShipperHandler][DeleteShipper] bad request, err: ", err.Error())
+		server.RenderError(w, http.StatusBadRequest, err, timeStart)
+		return
+	}
+
+	err = p.shipper.DeleteShipper(context.Background(), queryID)
+	if err != nil {
+		server.RenderError(w, http.StatusBadRequest, err, timeStart)
+		return
+	}
+
+	// server.RenderResponse(w, http.StatusOK, resp, timeStart)
+
+	w.WriteHeader(http.StatusNoContent)
+
 }

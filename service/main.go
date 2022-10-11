@@ -43,6 +43,7 @@ func main() {
 	router.HandleFunc("/shipper/{id}", sh.GetShipperHandler).Methods(http.MethodGet)
 	router.HandleFunc("/shippers", sh.GetShipperAllHandler).Methods(http.MethodGet)
 	router.HandleFunc("/", sh.RootHandler).Methods(http.MethodGet)
+	router.HandleFunc("/shipper/{id}", sh.DeleteShipperHandler).Methods(http.MethodDelete)
 
 	serverConfig := server.Config{
 		WriteTimeout: 5 * time.Second,
