@@ -114,10 +114,28 @@ func (s *storage) UpdateShipper(ctx context.Context, id int64, param m.ShipperRe
 	}
 	if rowsAffected == 0 {
 		log.Println("[ShipperModule][UpdateShipper] no rows affected in db")
-		return 
+		return
 	}
 
 	result.ID = id
+
+	return
+}
+
+func (s *storage) RemoveShipper(ctx context.Context, id int64) (result m.ShipperResponse, err error) {
+
+	res, err := s.ShipperDB.ExecContext(ctx, removeShipperQuery, id)
+
+	rowsAffected, err := res.RowsAffected()
+
+	if err != nil {
+		log.Println("[ShipperModule][RemoveShipper] problem querying to db, err: ", err.Error())
+		return result, err
+	}
+	if rowsAffected == 0 {
+		log.Println("[ShipperModule][RemoveShipper] no effect ")
+		return
+	}
 
 	return
 }
