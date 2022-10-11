@@ -52,3 +52,13 @@ func (p *Module) UpdateShipper(ctx context.Context, id int64, data m.ShipperRequ
 
 	return
 }
+
+func (p *Module) DeleteShipper(ctx context.Context, id int64) (result m.ShipperResponse, err error) {
+	result, err = p.Storage.DeleteShipper(ctx, id)
+	if err != nil {
+		log.Println("[ShipperModule][UpdateShipper] problem getting storage data, err: ", err.Error())
+		return
+	}
+
+	return
+}
