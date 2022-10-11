@@ -139,7 +139,5 @@ func (s *storage) DeleteShipper(ctx context.Context, id int64, param m.ShipperRe
 		return 
 	}
 
-	result.ID = id
-
 	return
 }
