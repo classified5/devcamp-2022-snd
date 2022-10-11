@@ -91,7 +91,7 @@ func (s *storage) GetShipperAll(ctx context.Context) (result []m.ShipperResponse
 }
 
 func (s *storage) UpdateShipper(ctx context.Context, id int64, param m.ShipperRequest) (result m.ShipperResponse, err error) {
-	if err := s.ShipperDB.QueryRowContext(ctx, updateShipperQuery,
+	res, err := s.ShipperDB.ExecContext(ctx, updateShipperQuery,
 		param.Name,
 		param.ImageURL,
 		param.Description,
@@ -101,9 +101,20 @@ func (s *storage) UpdateShipper(ctx context.Context, id int64, param m.ShipperRe
 		param.UpdatedAt,
 		param.UpdatedBy,
 		id,
-	).Scan(&id); err != nil {
+	)
+	if err != nil {
 		log.Println("[ShipperModule][UpdateShipper][Storage] problem querying to db, err: ", err.Error())
-		return result, err
+		return
+	}
+
+	rowsAffected, err := res.RowsAffected()
+	if err != nil {
+		log.Println("[ShipperModule][UpdateShipper] problem querying to db, err: ", err.Error())
+		return
+	}
+	if rowsAffected == 0 {
+		log.Println("[ShipperModule][UpdateShipper] no rows affected in db")
+		return 
 	}
 
 	result.ID = id

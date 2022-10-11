@@ -47,8 +47,32 @@ func BuildQuery(id int64, param m.ShipperRequest) (finalQuery string, fieldValue
 		fieldValues = append(fieldValues, param.Name)
 		i++
 	}
+	if param.ImageURL != "" {
+		fieldQuery += fmt.Sprintf("image_url=$%d,", i)
+		fieldValues = append(fieldValues, param.ImageURL)
+		i++
+	}
+	if param.Description != "" {
+		fieldQuery += fmt.Sprintf("description=$%d,", i)
+		fieldValues = append(fieldValues, param.Description)
+		i++
+	}
+	if param.MaxWeight != 0 {
+		fieldQuery += fmt.Sprintf("max_weight=$%d,", i)
+		fieldValues = append(fieldValues, param.MaxWeight)
+		i++
+	}
+	if param.UpdatedBy != 0 {
+		fieldQuery += fmt.Sprintf("updated_by=$%d,", i)
+		fieldValues = append(fieldValues, param.UpdatedBy)
+		i++
+	} else {
+		fieldQuery += fmt.Sprintf("updated_by=$%d,", i)
+		fieldValues = append(fieldValues, 99999)
+		i++
+	}
 
-	fieldQuery += fmt.Sprintf("updated_by=$%d,", i)
+	fieldQuery += fmt.Sprintf("updated_at=$%d,", i)
 	fieldValues = append(fieldValues, param.UpdatedAt)
 	i++
 
