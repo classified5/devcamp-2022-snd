@@ -76,7 +76,7 @@ func BuildQuery(id int64, param m.ShipperRequest) (finalQuery string, fieldValue
 	fieldValues = append(fieldValues, param.UpdatedAt)
 	i++
 
-	finalQuery = fmt.Sprintf(updateShipperQuery, fieldQuery[:len(fieldQuery)-1], id)
+	finalQuery = fmt.Sprint(updateShipperQuery, fieldQuery[:len(fieldQuery)-1], id)
 
 	return
 }
