@@ -124,3 +124,24 @@ func (p *Handler) UpdateShipperHandler(w http.ResponseWriter, r *http.Request) {
 	server.RenderResponse(w, http.StatusCreated, resp, timeStart)
 	return
 }
+
+func (p *Handler) DeleteShipperHandler(w http.ResponseWriter, r *http.Request) {
+	log.Println("Entering DeleteShipper Handler")
+	timeStart := time.Now()
+	vars := mux.Vars(r)
+	queryID, err := strconv.ParseInt(vars["id"], 10, 64)
+	if err != nil {
+		log.Println("[ShipperHandler][DeleteShipper] bad request, err: ", err.Error())
+		server.RenderError(w, http.StatusBadRequest, err, timeStart)
+		return
+	}
+
+	err = p.shipper.DeleteShipper(context.Background(), queryID)
+	if err != nil {
+		server.RenderError(w, http.StatusBadRequest, err, timeStart)
+		return
+	}
+
+	server.RenderResponse(w, http.StatusCreated, true, timeStart)
+	return
+}
