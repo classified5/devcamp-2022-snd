@@ -58,6 +58,28 @@ func (s *storage) GetShipper(ctx context.Context, id int64) (result m.ShipperRes
 	return
 }
 
+func (s *storage) DeleteShipper(ctx context.Context, id int64) (result m.ShipperResponse, err error) {
+	res, err := s.ShipperDB.ExecContext(ctx, deleteShipperQuery, id)
+	if err != nil {
+		log.Println("[ShipperModule][DeleteShipper][Storage] problem querying to db, err: ", err.Error())
+		return
+	}
+
+	rowsAffected, err := res.RowsAffected()
+	if err != nil {
+		log.Println("[ShipperModule][DeleteShipper] problem querying to db, err: ", err.Error())
+		return
+	}
+	if rowsAffected == 0 {
+		log.Println("[ShipperModule][DeleteShipper] no rows affected in db")
+		return
+	}
+
+	result.ID = id
+
+	return
+}
+
 func (s *storage) GetShipperAll(ctx context.Context) (result []m.ShipperResponse, err error) {
 	result = make([]m.ShipperResponse, 0)
 
@@ -114,7 +136,7 @@ func (s *storage) UpdateShipper(ctx context.Context, id int64, param m.ShipperRe
 	}
 	if rowsAffected == 0 {
 		log.Println("[ShipperModule][UpdateShipper] no rows affected in db")
-		return 
+		return
 	}
 
 	result.ID = id
