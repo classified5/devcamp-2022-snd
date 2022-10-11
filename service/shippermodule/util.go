@@ -9,6 +9,7 @@ import (
 )
 
 func SanitizeInsert(param m.ShipperRequest) (m.ShipperRequest, error) {
+
 	if param.Name == "" {
 		return param, errors.New("name cannot be empty")
 	}
