@@ -82,7 +82,7 @@ func (p *Handler) DeleteShipperHandler(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	queryID, err := strconv.ParseInt(vars["id"], 10, 64)
 	if err != nil {
-		log.Println("[ShipperHandler][GetShipper] bad request, err: ", err.Error())
+		log.Println("[ShipperHandler][DeleteShipper] bad request, err: ", err.Error())
 		server.RenderError(w, http.StatusBadRequest, err, timeStart)
 		return
 	}
