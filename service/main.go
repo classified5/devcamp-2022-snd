@@ -40,6 +40,7 @@ func main() {
 	// REST Handlers
 	router.HandleFunc("/shipper", sh.AddShipperHandler).Methods(http.MethodPost)
 	router.HandleFunc("/shipper/{id}", sh.UpdateShipperHandler).Methods(http.MethodPut)
+	router.HandleFunc("/shipper/{id}", sh.DeleteShipperHandler).Methods(http.MethodDelete)
 	router.HandleFunc("/shipper/{id}", sh.GetShipperHandler).Methods(http.MethodGet)
 	router.HandleFunc("/shippers", sh.GetShipperAllHandler).Methods(http.MethodGet)
 	router.HandleFunc("/", sh.RootHandler).Methods(http.MethodGet)

@@ -124,3 +124,38 @@ func (p *Handler) UpdateShipperHandler(w http.ResponseWriter, r *http.Request) {
 	server.RenderResponse(w, http.StatusCreated, resp, timeStart)
 	return
 }
+
+func (p *Handler) DeleteShipperHandler(w http.ResponseWriter, r *http.Request) {
+	log.Println("Entering UpdateShipper Handler")
+	timeStart := time.Now()
+	vars := mux.Vars(r)
+	queryID, err := strconv.ParseInt(vars["id"], 10, 64)
+	if err != nil {
+		log.Println("[ShipperHandler][DeleteShipper] bad request, err: ", err.Error())
+		server.RenderError(w, http.StatusBadRequest, err, timeStart)
+		return
+	}
+
+	body, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		log.Println("[ShipperHandler][DeleteShipper] unable to read body, err: ", err.Error())
+		server.RenderError(w, http.StatusBadRequest, err, timeStart)
+		return
+	}
+
+	var data model.ShipperRequest
+	if err := json.Unmarshal(body, &data); err != nil {
+		log.Println("[ShipperHandler][DeleteShipper] unable to unmarshal json, err: ", err.Error())
+		server.RenderError(w, http.StatusBadRequest, err, timeStart)
+		return
+	}
+
+	resp, err := p.shipper.DeleteShipper(context.Background(), queryID)
+	if err != nil {
+		server.RenderError(w, http.StatusBadRequest, err, timeStart)
+		return
+	}
+
+	server.RenderResponse(w, http.StatusCreated, resp, timeStart)
+	return
+}
