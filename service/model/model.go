@@ -24,3 +24,22 @@ type ShipperRequest struct {
 	UpdatedAt   time.Time `json:"updated_at"`
 	UpdatedBy   int       `json:"updated_by"`
 }
+
+type SellerRequest struct {
+	Name      string    `json:"seller_name"`
+	Password  string    `json:"seller_password"`
+	CreatedAt time.Time `json:"created_at"`
+	CreatedBy int       `json:"created_by"`
+	UpdatedAt time.Time `json:"updated_at"`
+	UpdatedBy int       `json:"updated_by"`
+}
+
+type SellerResponse struct {
+	ID        int64     `json:"seller_id,omitempty" db:"id"`
+	Name      string    `json:"seller_name,omitempty" db:"name"`
+	Password  string    `json:"seller_password,omitempty" db:"password"` //should delete later, just for checking in the mean while
+	CreatedAt time.Time `json:"created_at,omitempty" db:"created_at"`
+	CreatedBy int       `json:"created_by,omitempty" db:"created_by"`
+	UpdatedAt time.Time `json:"updated_at,omitempty" db:"updated_at"`
+	UpdatedBy int       `json:"updated_by,omitempty" db:"updated_by"`
+}
