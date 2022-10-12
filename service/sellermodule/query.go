@@ -1,7 +1,7 @@
 package sellermodule
 
 const (
-	addShipperQuery = `
+	addSellerQuery = `
 	INSERT INTO seller (
 		name,
 		password,
@@ -18,7 +18,7 @@ const (
 		$6,
 	) returning id
 `
-	getShipperQuery = `
+	getSellerQuery = `
 	SELECT
 		name,
 		password,
@@ -32,7 +32,7 @@ const (
 		id=$1
 `
 
-	getShipperAllQuery = `
+	getSellerAllQuery = `
 	SELECT
 		*
 	FROM
