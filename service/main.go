@@ -40,7 +40,7 @@ func main() {
 		ReadTimeout:  5 * time.Second,
 		Port:         9090,
 	}
-	log.Println("Devcamp-2022-snd shipper service service is starting...")
+	log.Println("Devcamp-2022-snd shipper and seller service service is starting...")
 
 	server.Serve(serverConfig, router)
 }
