@@ -1,4 +1,4 @@
-package shippermodule
+package productmodule
 
 import (
 	"database/sql"
@@ -8,7 +8,7 @@ type Module struct {
 	Storage *storage
 }
 
-func NewShipperModule(db *sql.DB) *Module {
+func NewProductModule(db *sql.DB) *Module {
 	return &Module{
 		Storage: newStorage(db),
 	}

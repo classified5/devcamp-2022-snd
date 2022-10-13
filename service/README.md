@@ -1,4 +1,4 @@
-# Backend Shipper Service for Tokopedia Devcamp 2022 Server and Database
+# Backend Product Service for Tokopedia Devcamp 2022 Server and Database
 
 You can run the service using docker detached option
 
@@ -20,47 +20,47 @@ curl --request GET \
   --url http://localhost:9000/
 ```
 
-Insert Shipper
+Insert Product
 ```shell
 curl --request POST \
-  --url http://localhost:9000/shipper \
+  --url http://localhost:9000/product \
   --header 'Content-Type: application/json' \
   --data '{
-	"shipper_name": "shipper1",
-	"shipper_image": "shipper1.jpg",
-	"shipper_description": "shipper1 is fast",
+	"product_name": "product1",
+	"product_image": "product1.jpg",
+	"product_description": "product1 is fast",
 	"max_weight": 100
 }'
 ```
 
-Update Shipper By ID
+Update Product By ID
 ```shell
 curl --request PUT \
-  --url http://localhost:9000/shipper/1 \
+  --url http://localhost:9000/product/1 \
   --header 'Content-Type: application/json' \
   --data '{
-	"shipper_name": "shipper1",
-	"shipper_image": "shipper1.jpg",
-	"shipper_description": "shipper1 is fast and efficient",
+	"product_name": "product1",
+	"product_image": "product1.jpg",
+	"product_description": "product1 is fast and efficient",
 	"max_weight": 10
 }'
 ```
 
-Get Shipper By ID
+Get Product By ID
 ```shell
 curl --request GET \
-  --url http://localhost:9000/shipper/1
+  --url http://localhost:9000/product/1
 ```
 
-Get All Shipper
+Get All Product
 ```shell
 curl --request GET \
-  --url http://localhost:9000/shippers
+  --url http://localhost:9000/products
 ```
 
 ## Code Structure
 
-Code structure for shipper service.
+Code structure for product service.
 
 ```
 service
@@ -68,7 +68,7 @@ service
  ├── model                # Entity Definition
  ├── server               # Server Initialization Configuration
         ├── handlers      # HTTP Handler       
- ├── shippermodule        # Business Logic
+ ├── productmodule        # Business Logic
  ├── main.go              # Service Initalization
  └── Dockerfile           # Dockerfile to build the image
 ```
