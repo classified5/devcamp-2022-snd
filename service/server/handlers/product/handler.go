@@ -1,4 +1,4 @@
-package shipper
+package product
 
 import (
 	"context"
@@ -12,8 +12,8 @@ import (
 
 	"github.com/gorilla/mux"
 
-	"github.com/classified5/devcamp-2022-snd/service/model"
-	"github.com/classified5/devcamp-2022-snd/service/server"
+	"github.com/adhafajri/devcamp_pe_muhammad_adha_fajri_jonison/service/model"
+	"github.com/adhafajri/devcamp_pe_muhammad_adha_fajri_jonison/service/server"
 )
 
 func (p *Handler) RootHandler(w http.ResponseWriter, req *http.Request) {
@@ -21,31 +21,31 @@ func (p *Handler) RootHandler(w http.ResponseWriter, req *http.Request) {
 	fmt.Fprintf(w, "Hello Devcamp-2022-snd!")
 }
 
-func (p *Handler) AddShipperHandler(w http.ResponseWriter, r *http.Request) {
-	log.Println("Entering AddShipperHandler")
+func (p *Handler) AddProductHandler(w http.ResponseWriter, r *http.Request) {
+	log.Println("Entering AddProductHandler")
 	timeStart := time.Now()
 
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
-		log.Println("[ShipperHandler][AddShipper] unable to read body, err: ", err.Error())
+		log.Println("[ProductHandler][AddProduct] unable to read body, err: ", err.Error())
 		server.RenderError(w, http.StatusBadRequest, err, timeStart)
 		return
 	}
 
-	var data model.ShipperRequest
+	var data model.ProductRequest
 	if err := json.Unmarshal(body, &data); err != nil {
-		log.Println("[ShipperHandler][AddShipper] unable to unmarshal json, err: ", err.Error())
+		log.Println("[ProductHandler][AddProduct] unable to unmarshal json, err: ", err.Error())
 		server.RenderError(w, http.StatusBadRequest, err, timeStart)
 		return
 	}
 
-	res, err := p.shipper.AddShipper(context.Background(), data)
+	res, err := p.product.AddProduct(context.Background(), data)
 	if err != nil {
 		server.RenderError(w, http.StatusBadRequest, err, timeStart)
 		return
 	}
 
-	resp := InsertShipperResponse{
+	resp := InsertProductResponse{
 		ID: res.ID,
 	}
 
@@ -53,19 +53,19 @@ func (p *Handler) AddShipperHandler(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (p *Handler) GetShipperHandler(w http.ResponseWriter, r *http.Request) {
-	log.Println("Entering GetShipper Handler")
+func (p *Handler) GetProductHandler(w http.ResponseWriter, r *http.Request) {
+	log.Println("Entering GetProduct Handler")
 	timeStart := time.Now()
 
 	vars := mux.Vars(r)
 	queryID, err := strconv.ParseInt(vars["id"], 10, 64)
 	if err != nil {
-		log.Println("[ShipperHandler][GetShipper] bad request, err: ", err.Error())
+		log.Println("[ProductHandler][GetProduct] bad request, err: ", err.Error())
 		server.RenderError(w, http.StatusBadRequest, err, timeStart)
 		return
 	}
 
-	resp, err := p.shipper.GetShipper(context.Background(), queryID)
+	resp, err := p.product.GetProduct(context.Background(), queryID)
 	if err != nil {
 		server.RenderError(w, http.StatusBadRequest, err, timeStart)
 		return
@@ -75,12 +75,12 @@ func (p *Handler) GetShipperHandler(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (p *Handler) GetShipperAllHandler(w http.ResponseWriter, r *http.Request) {
-	log.Println("Entering GetShipperAll Handler")
+func (p *Handler) GetProductAllHandler(w http.ResponseWriter, r *http.Request) {
+	log.Println("Entering GetProductAll Handler")
 	timeStart := time.Now()
 	var err error
 
-	resp, err := p.shipper.GetShipperAll(context.Background())
+	resp, err := p.product.GetProductAll(context.Background())
 	if err != nil {
 		server.RenderError(w, http.StatusBadRequest, err, timeStart)
 		return
@@ -90,32 +90,32 @@ func (p *Handler) GetShipperAllHandler(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (p *Handler) UpdateShipperHandler(w http.ResponseWriter, r *http.Request) {
-	log.Println("Entering UpdateShipper Handler")
+func (p *Handler) UpdateProductHandler(w http.ResponseWriter, r *http.Request) {
+	log.Println("Entering UpdateProduct Handler")
 	timeStart := time.Now()
 	vars := mux.Vars(r)
 	queryID, err := strconv.ParseInt(vars["id"], 10, 64)
 	if err != nil {
-		log.Println("[ShipperHandler][UpdateShipper] bad request, err: ", err.Error())
+		log.Println("[ProductHandler][UpdateProduct] bad request, err: ", err.Error())
 		server.RenderError(w, http.StatusBadRequest, err, timeStart)
 		return
 	}
 
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
-		log.Println("[ShipperHandler][UpdateShipper] unable to read body, err: ", err.Error())
+		log.Println("[ProductHandler][UpdateProduct] unable to read body, err: ", err.Error())
 		server.RenderError(w, http.StatusBadRequest, err, timeStart)
 		return
 	}
 
-	var data model.ShipperRequest
+	var data model.ProductRequest
 	if err := json.Unmarshal(body, &data); err != nil {
-		log.Println("[ShipperHandler][UpdateShipper] unable to unmarshal json, err: ", err.Error())
+		log.Println("[ProductHandler][UpdateProduct] unable to unmarshal json, err: ", err.Error())
 		server.RenderError(w, http.StatusBadRequest, err, timeStart)
 		return
 	}
 
-	resp, err := p.shipper.UpdateShipper(context.Background(), queryID, data)
+	resp, err := p.product.UpdateProduct(context.Background(), queryID, data)
 	if err != nil {
 		server.RenderError(w, http.StatusBadRequest, err, timeStart)
 		return

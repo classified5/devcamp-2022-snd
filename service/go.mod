@@ -1,4 +1,4 @@
-module github.com/classified5/devcamp-2022-snd/service
+module github.com/adhafajri/devcamp_pe_muhammad_adha_fajri_jonison/service
 
 go 1.17
 

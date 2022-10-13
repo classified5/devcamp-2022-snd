@@ -1,12 +1,12 @@
-package shippermodule
+package productmodule
 
 const (
-	addShipperQuery = `
-	INSERT INTO shipper (
+	addProductQuery = `
+	INSERT INTO product (
 		name,
-		image_url,
-		description,
-		max_weight,
+		price,
+		discount,
+		stock,
 		created_at,
 		created_by,
 		updated_at,
@@ -22,37 +22,37 @@ const (
 		$8
 	) returning id
 `
-	getShipperQuery = `
+	getProductQuery = `
 	SELECT
 		name,
-		image_url,
-		description,
-		max_weight,
+		price,
+		discount,
+		stock,
 		created_at,
 		created_by,
 		updated_at,
 		updated_by
 	FROM
-		shipper
+		product
 	WHERE
 		id=$1
 `
 
-	getShipperAllQuery = `
+	getProductAllQuery = `
 	SELECT
 		*
 	FROM
-		shipper
+		product
 `
 
-	updateShipperQuery = `
+	updateProductQuery = `
 	UPDATE
-		shipper
+		product
 	SET
 		name=$1,
-		image_url=$2,
-		description=$3,
-		max_weight=$4,
+		price=$2,
+		discount=$3,
+		stock=$4,
 		created_at=$5,
 		created_by=$6,
 		updated_at=$7,
